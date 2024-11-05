@@ -17,26 +17,29 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        # Create horizontal layout for top buttons (Lexical, Syntax, Semantic) and file buttons (New, Open, Save)
+        # Create horizontal layout for top buttons (Lexical, Syntax, Semantic) kasama rin mga file buttons (New, Open, Save)
         top_layout = QHBoxLayout()
 
         # Top buttons (Lexical, Syntax, Semantic)
+        
         lexical_btn = QPushButton("Lexical Analysis")
         syntax_btn = QPushButton("Syntax Analysis")
         semantic_btn = QPushButton("Semantic Analysis")
-        
+
+        ############### disregard muna 'to. For styling lang #########################
         # Set initial style for active/inactive state
         lexical_btn.setStyleSheet("background-color: #4CAF50; color: white;")
         syntax_btn.setStyleSheet("background-color: #ddd; color: black;")
         semantic_btn.setStyleSheet("background-color: #ddd; color: black;")
+        ###############################################################################
         
-        # Add buttons to the top layout (left-aligned)
+        # Add buttons sa top layout (left-aligned)
         top_layout.addWidget(lexical_btn)
         top_layout.addWidget(syntax_btn)
         top_layout.addWidget(semantic_btn)
 
-        # Spacer to push other buttons to the right
-        spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        # Spacer ng pagpush for other buttons to the right
+        spacer = QSpacerItem(40, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
         top_layout.addSpacerItem(spacer)
 
         # File buttons (right-aligned: New File, Open File, Save File)
@@ -71,12 +74,6 @@ class MainWindow(QMainWindow):
         editor_layout.addLayout(code_header_layout)  # Add header layout to editor layout
         editor_layout.addWidget(self.code_edit)
 
-        # Right-side table for displaying analysis results
-        self.result_table = QTableWidget()
-        self.result_table.setRowCount(0)
-        self.result_table.setColumnCount(4)
-        self.result_table.setHorizontalHeaderLabels(['Line', 'Lexeme', 'Token', 'Attribute'])
-
         # Console area for messages
         console_label = QLabel("Console")
         self.console_edit = QTextEdit()
@@ -84,24 +81,29 @@ class MainWindow(QMainWindow):
         self.console_edit.setPlaceholderText("Console output...")
         self.console_edit.setStyleSheet("background-color: #eee; padding: 10px;")
 
-        # Layout for console and result table
+        # Add console label and console editor to editor layout to match Code Editor width
+        editor_layout.addWidget(console_label)
+        editor_layout.addWidget(self.console_edit)
+
+        # Right-side table for displaying analysis results
+        self.result_table = QTableWidget()
+        self.result_table.setRowCount(0)
+        self.result_table.setColumnCount(4)
+        self.result_table.setHorizontalHeaderLabels(['Line', 'Lexeme', 'Token', 'Attribute'])
+
+        # Layout for result table
         result_layout = QVBoxLayout()
         result_layout.addWidget(self.result_table)
 
-        console_layout = QVBoxLayout()
-        console_layout.addWidget(console_label)
-        console_layout.addWidget(self.console_edit)
-
         # Create main horizontal layout
         main_layout = QHBoxLayout()
-        main_layout.addLayout(editor_layout, 2)  # Code editor on the left side
+        main_layout.addLayout(editor_layout, 2)  # Code editor and console on the left side
         main_layout.addLayout(result_layout, 1)  # Table on the right side
 
         # Add top buttons and the main layout to the central layout
         layout = QVBoxLayout()
         layout.addLayout(top_layout)
         layout.addLayout(main_layout)
-        layout.addLayout(console_layout)
 
         central_widget.setLayout(layout)
 
